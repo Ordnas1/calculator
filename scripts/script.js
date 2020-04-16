@@ -1,6 +1,7 @@
 /* Script for Online Calculator
 * by Sandro Peirano */
 
+// Internal functions 
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -43,3 +44,13 @@ function operate(operator, num1, num2) {
             return 'INVALID OPERATOR'
     }
 }
+
+let displayNum = ''
+let displayNumFormated = ''
+let mantissaValue = 0
+
+let buttonNum = document.querySelectorAll(".calc-btn-num")
+buttonNum.forEach(button => button.addEventListener('click', e => {
+    console.log(e.target.dataset.value)
+    
+}))
