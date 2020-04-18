@@ -16,7 +16,7 @@ header {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    height: 20%;
+    height: 20vh;
 }
 
 h1 {
@@ -35,7 +35,7 @@ h1 {
 /* main elements */
 
 main {
-    height: 80%;
+    height: 80vh    ;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,10 +44,11 @@ main {
 /** calculator elements */ 
 
 .calculator {
-    width: 20%;
-    height: 80%;
+    width: auto ;
+    height: auto;
     display: grid;
-    grid-template-areas: "display display display display"
+    grid-template-areas: 
+    "display display display display"
     "display display display display"
     ". . clear backspace"
     "seven eight nine mult"
@@ -55,7 +56,7 @@ main {
     "one two three sub"
     "zero dec-point equal add";
     grid-template-columns:repeat(4, 1fr);
-    grid-template-rows: auto;
+    grid-template-rows: repeat(7, 1fr);
     gap: 10px 15px;
     padding: 2rem 2.5rem;
     border: 2px solid black;
@@ -73,14 +74,15 @@ main {
     border: 2px solid black;
     border-radius: 8px;
     background-color: #F0FFF0;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 }
 
 .display-text {
     text-align: right;
     justify-self: right;
+    width: 100%;
     font-size: 4rem;
-    margin: 0 2rem 2rem 0;
+    margin: 0 0.8rem 0.8rem 0;
     font-family: 'VT323', monospace;
     font-weight: 400;
     color: black;

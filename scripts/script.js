@@ -45,12 +45,31 @@ function operate(operator, num1, num2) {
     }
 }
 
-let displayNum = ''
-let displayNumFormated = ''
-let mantissaValue = 0
+// Display related functions
 
+let displayNum = '';
+let displayNumFormated = '';
+let mantissaValue = 0;
+let displayNumDecimal = false;
+
+let displayMantissa = document.querySelector(".display-text");    
 let buttonNum = document.querySelectorAll(".calc-btn-num")
 buttonNum.forEach(button => button.addEventListener('click', e => {
-    console.log(e.target.dataset.value)
-    
+    if (displayNumDecimal && e.target.dataset.value == "."){
+        return
+    }   else {
+        displayNum = displayNum + e.target.dataset.value
+        mantissaValue = Number(displayNum)
+        displayNumFormated = mantissaValue.toLocaleString(undefined, {maximumSignificantDigits: 15})
+
+    }
+    console.log(displayNum)
+    console.log(mantissaValue)
+    console.log(displayNumFormated)
+    displayMantissa.textContent = displayNumFormated;
 }))
+
+
+
+let buttonDecimal = document.querySelector("#dec-point")
+buttonDecimal.addEventListener('click', () => displayNumDecimal = true)
