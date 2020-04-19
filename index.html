@@ -19,25 +19,25 @@
     <main>
         <div class="calculator">
             <div class="calc-display">
-                <p class="display-text">1'234'567.890</p>
+                <p class="display-text">0</p>
             </div>
             <div class="calc-clear calc-btn calc-btn-top">
-                <p class="btn-label">Clear</p>
+                <p class="btn-label calc-clear">Clear</p>
             </div>
             <div class="calc-backspace calc-btn calc-btn-top">
-                <p class="btn-label">BckSpc</p>
+                <p class="btn-label calc-backspace">BckSpc</p>
             </div>
-            <div class="mult calc-btn calc-btn-op">
-                <p class="btn-label">X</p>
+            <div data-value="*" class="mult calc-btn calc-btn-op">
+                <p data-value="*" class="btn-label">X</p>
             </div>
-            <div class="divide calc-btn calc-btn-op">
-                <p class="btn-label">/</p>
+            <div data-value="/" class="divide calc-btn calc-btn-op">
+                <p data-value="/" class="btn-label">/</p>
             </div>
-            <div class="sub calc-btn calc-btn-op">
-                <p class="btn-label">-</p>
+            <div data-value="-" class="sub calc-btn calc-btn-op">
+                <p data-value="-" class="btn-label">-</p>
             </div>
-            <div class="add calc-btn calc-btn-op">
-                <p class="btn-label">+</p>
+            <div data-value="+" class="add calc-btn calc-btn-op">
+                <p data-value="+" class="btn-label">+</p>
             </div>
             <div id="9" data-value="9" class="nine calc-btn calc-btn-num">
                 <p data-value="9" class="btn-label btn-number">9</p>

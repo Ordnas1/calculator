@@ -17,9 +17,9 @@ function multiply(num1, num2) {
 function divide(num1, num2) {
     if (num2 === 0) {
         if (num1 === 0) {
-            return "You tried to do something undetermined"
+            return "UNDETERMINED"
         } else {
-            return "You tried to do something undefined"
+            return "THAT'S UNDEFINED"
         }
     } else {
         return num1 / num2;
@@ -30,16 +30,12 @@ function operate(operator, num1, num2) {
     switch (operator) {
         case '+':
             return add(num1, num2);
-            break;
         case '-':
             return substract(num1, num2)
-            break;
         case '*':
             return multiply(num1, num2)
-            break;
         case '/':
             return divide(num1, num2)
-            break;
         default:
             return 'INVALID OPERATOR'
     }
@@ -58,6 +54,9 @@ buttonNum.forEach(button => button.addEventListener('click', e => {
     if (displayNumDecimal && e.target.dataset.value == "."){
         return
     }   else {
+       if (e.target.dataset.value == '.' && displayNum == '') {
+           displayNum = '0'
+       }
         displayNum = displayNum + e.target.dataset.value
         mantissaValue = Number(displayNum)
         displayNumFormated = mantissaValue.toLocaleString(undefined, {maximumSignificantDigits: 15})
@@ -73,3 +72,61 @@ buttonNum.forEach(button => button.addEventListener('click', e => {
 
 let buttonDecimal = document.querySelector("#dec-point")
 buttonDecimal.addEventListener('click', () => displayNumDecimal = true)
+
+// Calculation related functions
+
+let operand1 = null;
+let operand2 = null;
+let operation = null;
+
+let buttonOp = document.querySelectorAll(".calc-btn-op")
+buttonOp.forEach(button => button.addEventListener('click', e => {
+    if (displayNumDecimal) {
+        displayNumDecimal = false;
+    }
+    operand1 = mantissaValue;
+    operation = e.target.dataset.value;
+    displayNum = '';
+    mantissaValue = 0;
+}))
+
+let buttonEqual = document.querySelector(".equal");
+buttonEqual.addEventListener('click', e => {
+    if (displayNumDecimal) {
+        displayNumDecimal = false;
+    }
+    operand2 = mantissaValue;
+    operand1 = operate(operation, operand1, operand2);
+    displayNumFormated = operand1.toLocaleString(undefined, {maximumSignificantDigits: 15});
+    displayMantissa.textContent = displayNumFormated;
+    displayNum = '';
+    mantissaValue = operand1;
+
+})
+
+// Reset related functions
+
+let buttonClear = document.querySelectorAll(".calc-clear")
+buttonClear.forEach(button => button.addEventListener('click', () => {
+    operand1 = null;
+    operand2 = null;
+    operation = null;
+    displayNum = ''
+    mantissaValue = 0
+    displayMantissa.textContent = '0';
+    displayNumDecimal = false;
+}))
+
+let buttonDelete = document.querySelectorAll(".calc-backspace")
+buttonDelete.forEach(button => button.addEventListener('click', () => {
+    if (displayNum.charAt(displayNum.length - 2 ) == ".") {
+        displayNumDecimal = false
+        displayNum = displayNum.substring(0, displayNum.length - 1);
+    }
+    if (displayNum.length === 0) return;
+
+    displayNum = displayNum.substring(0, displayNum.length - 1);
+    mantissaValue = Number(displayNum);
+    displayNumFormated = mantissaValue.toLocaleString(undefined, {maximumSignificantDigits: 15});
+    displayMantissa.textContent = displayNumFormated;
+}))
