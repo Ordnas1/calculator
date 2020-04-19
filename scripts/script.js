@@ -48,9 +48,7 @@ let displayNumFormated = '';
 let mantissaValue = 0;
 let displayNumDecimal = false;
 
-let displayMantissa = document.querySelector(".display-text");    
-let buttonNum = document.querySelectorAll(".calc-btn-num")
-buttonNum.forEach(button => button.addEventListener('click', e => {
+function getCalcInput(e) {
     if (displayNumDecimal && e.target.dataset.value == "."){
         return
     }   else {
@@ -62,11 +60,12 @@ buttonNum.forEach(button => button.addEventListener('click', e => {
         displayNumFormated = mantissaValue.toLocaleString(undefined, {maximumSignificantDigits: 15})
 
     }
-    console.log(displayNum)
-    console.log(mantissaValue)
-    console.log(displayNumFormated)
     displayMantissa.textContent = displayNumFormated;
-}))
+}
+
+let displayMantissa = document.querySelector(".display-text");    
+let buttonNum = document.querySelectorAll(".calc-btn-num")
+    buttonNum.forEach(button => button.addEventListener('click', e => getCalcInput(e)))
 
 
 
@@ -79,8 +78,8 @@ let operand1 = null;
 let operand2 = null;
 let operation = null;
 
-let buttonOp = document.querySelectorAll(".calc-btn-op")
-buttonOp.forEach(button => button.addEventListener('click', e => {
+
+function getCalcOperation(e) {
     if (displayNumDecimal) {
         displayNumDecimal = false;
     }
@@ -88,10 +87,13 @@ buttonOp.forEach(button => button.addEventListener('click', e => {
     operation = e.target.dataset.value;
     displayNum = '';
     mantissaValue = 0;
-}))
+}
 
-let buttonEqual = document.querySelector(".equal");
-buttonEqual.addEventListener('click', e => {
+let buttonOp = document.querySelectorAll(".calc-btn-op")
+buttonOp.forEach(button => button.addEventListener('click', e => getCalcOperation(e)))
+
+
+function getCalcResult() {
     if (displayNumDecimal) {
         displayNumDecimal = false;
     }
@@ -101,13 +103,15 @@ buttonEqual.addEventListener('click', e => {
     displayMantissa.textContent = displayNumFormated;
     displayNum = '';
     mantissaValue = operand1;
+}
 
-})
+let buttonEqual = document.querySelector(".equal");
+buttonEqual.addEventListener('click', () => getCalcResult())
+
 
 // Reset related functions
 
-let buttonClear = document.querySelectorAll(".calc-clear")
-buttonClear.forEach(button => button.addEventListener('click', () => {
+function clearCalc () {
     operand1 = null;
     operand2 = null;
     operation = null;
@@ -115,18 +119,57 @@ buttonClear.forEach(button => button.addEventListener('click', () => {
     mantissaValue = 0
     displayMantissa.textContent = '0';
     displayNumDecimal = false;
-}))
+}
 
-let buttonDelete = document.querySelectorAll(".calc-backspace")
-buttonDelete.forEach(button => button.addEventListener('click', () => {
+let buttonClear = document.querySelectorAll(".calc-clear")
+buttonClear.forEach(button => button.addEventListener('click', () => clearCalc()))
+
+function getCalcBackspace() {
     if (displayNum.charAt(displayNum.length - 2 ) == ".") {
         displayNumDecimal = false
         displayNum = displayNum.substring(0, displayNum.length - 1);
     }
     if (displayNum.length === 0) return;
-
     displayNum = displayNum.substring(0, displayNum.length - 1);
     mantissaValue = Number(displayNum);
     displayNumFormated = mantissaValue.toLocaleString(undefined, {maximumSignificantDigits: 15});
     displayMantissa.textContent = displayNumFormated;
-}))
+}
+
+let buttonDelete = document.querySelectorAll(".calc-backspace")
+buttonDelete.forEach(button => button.addEventListener('click', () => getCalcBackspace()))
+
+// Keyboard functionality
+
+window.addEventListener('keydown', e => {
+    console.log(e.key)
+    if ("0123456789.".indexOf(e.key) >= 0) {
+        if (displayNumDecimal && e.key == ".") {
+            return
+        } else {
+            if (e.key == '.' && displayNum == '') {
+                displayNum = '0'
+            }
+            displayNum = displayNum + e.key
+            mantissaValue = Number(displayNum)
+            displayNumFormated = mantissaValue.toLocaleString(undefined, { maximumSignificantDigits: 15 })
+
+        }
+        displayMantissa.textContent = displayNumFormated;
+    } else if ("+-*/".indexOf(e.key) >= 0) {
+        if (displayNumDecimal) {
+            displayNumDecimal = false;
+        }
+        operand1 = mantissaValue;
+        operation = e.key;
+        displayNum = '';
+        mantissaValue = 0;
+        return
+    } else if (e.key == "Enter") {
+        getCalcResult()
+    } else if (e.key == "Backspace") {
+        getCalcBackspace()
+    }
+
+})
+
